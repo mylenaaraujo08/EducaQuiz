@@ -309,7 +309,7 @@ class BiologyQuizScreen(Screen):
             if isinstance(child, Button):
                 child.disabled = True
 
-        # Avançar para a próxima questão após um curto intervalo
+        # Avançar para a próxima questão
         self.current_question += 1
         self.layout.add_widget(Button(text='Próxima', size_hint_y=None, height=40, on_press=lambda x: self.show_question()))
 
