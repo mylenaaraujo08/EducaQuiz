@@ -239,6 +239,7 @@ class BiologyQuizScreen(Screen):
         self.layout = BoxLayout(orientation='vertical', padding=20, spacing=10)
         self.add_widget(self.layout)
         self.questions = [
+
             {
     "question": "Questão 1 (UFPE) Ao dizer onde uma espécie pode ser encontrada e o que faz no lugar onde vive, estamos informando respectivamente",
     "options": ["a) Nicho ecológico e habitat.", "b) Habitat e nicho ecológico.", "c) Habitat e biótopo.", "d) Nicho ecológico e ecossistema.", "e) Habitat e ecossistema."],
@@ -264,65 +265,101 @@ class BiologyQuizScreen(Screen):
     "options": ["a) Garante floração mais prolongada da espécie;", "b) Propicia maior produtividade de frutos;", "c) Favorece a autofecundação;", "d) Reduz as chances de autofecundação;", "e) Impede a autofecundação."],
     "answer": "c) Favorece a autofecundação."
 }
-
-        ]
+         ]
         self.current_question = 0
         self.score = 0
+        self.wrong_answers = []
+        self.selected_answers = []
+        self.buttons = []
+        self.show_question()
 
     def on_enter(self, *args):
         self.reset_quiz()
-
-    def reset_quiz(self):
-        self.current_question = 0
-        self.score = 0
         self.show_question()
 
     def show_question(self):
         self.layout.clear_widgets()
 
+        question_data = self.questions[self.current_question]
+        question_label = Label(text=question_data["question"], font_size='18sp')
+        self.layout.add_widget(question_label)
+
+        self.buttons = []
+        for option in question_data["options"]:
+            btn = Button(text=option, size_hint_y=None, height=40)
+            btn.bind(on_press=self.check_answer)
+            self.layout.add_widget(btn)
+            self.buttons.append(btn)
+
+    def check_answer(self, instance):
+        selected_answer = instance.text
+        self.selected_answers.append(selected_answer)
+
+        correct_answer = self.questions[self.current_question]["answer"]
+
+        # Desativar os botões após a resposta ser escolhida
+        for btn in self.buttons:
+            btn.unbind(on_press=self.check_answer)
+            if btn.text == correct_answer:
+                btn.background_color = (0, 1, 0, 1)  # Verde para resposta correta
+            elif btn.text == selected_answer:
+                btn.background_color = (1, 0, 0, 1)  # Vermelho para resposta incorreta
+            else:
+                btn.background_color = (0.8, 0.8, 0.8, 1)  # Cinza para opções não selecionadas
+
+        if selected_answer == correct_answer:
+            self.score += 1
+        else:
+            self.wrong_answers.append({
+                "question": self.questions[self.current_question]["question"],
+                "selected": selected_answer,
+                "correct": correct_answer
+            })
+
+        # Adicionar botão "Próxima" para avançar
+        next_btn = Button(text='Próxima', size_hint_y=None, height=40)
+        self.layout.add_widget(next_btn)
+        next_btn.bind(on_press=self.next_question)
+
+    def next_question(self, instance):
+        self.current_question += 1
+
         if self.current_question < len(self.questions):
-            question_data = self.questions[self.current_question]
-            question_text = question_data["question"]
-            options = question_data["options"]
-
-            self.layout.add_widget(Label(text=question_text, font_size='18sp'))
-
-            for option in options:
-                btn = Button(text=option, size_hint_y=None, height=40)
-                btn.bind(on_press=self.check_answer)
-                self.layout.add_widget(btn)
+            self.show_question()
         else:
             self.show_score()
 
-    def check_answer(self, instance):
-        selected_option = instance.text
-        correct_answer = self.questions[self.current_question]["answer"]
-
-        if selected_option == correct_answer:
-            instance.background_color = (0, 1, 0, 1) 
-            self.score += 1
-        else:
-            instance.background_color = (1, 0, 0, 1) 
-
-        # Desativar todos os botões de resposta após selecionar uma opção
-        for child in self.layout.children:
-            if isinstance(child, Button):
-                child.disabled = True
-
-        # Avançar para a próxima questão
-        self.current_question += 1
-        self.layout.add_widget(Button(text='Próxima', size_hint_y=None, height=40, on_press=lambda x: self.show_question()))
-
     def show_score(self):
         self.layout.clear_widgets()
-        self.layout.add_widget(Label(text=f'Pontuação final: {self.score}', font_size='24sp'))
-        back_btn = Button(text='Voltar à Seleção de Assunto', size_hint_y=None, height=40)
-        self.layout.add_widget(back_btn)
+
+        score_label = Label(text=f"Pontuação Final: {self.score}/{len(self.questions)}", font_size='24sp')
+        self.layout.add_widget(score_label)
+
+        if self.wrong_answers:
+            wrong_label = Label(text="Respostas Incorretas:", font_size='20sp')
+            self.layout.add_widget(wrong_label)
+
+            for answer in self.wrong_answers:
+                question_label = Label(text=f"Pergunta: {answer['question']}", font_size='16sp')
+                selected_label = Label(text=f"Sua resposta: {answer['selected']}", font_size='16sp', color=(1, 0, 0, 1))
+                correct_label = Label(text=f"Resposta correta: {answer['correct']}", font_size='16sp', color=(0, 1, 0, 1))
+                self.layout.add_widget(question_label)
+                self.layout.add_widget(selected_label)
+                self.layout.add_widget(correct_label)
+
+        back_btn = Button(text='Voltar ao Menu', size_hint_y=None, height=40)
         back_btn.bind(on_press=self.go_to_subject_selection)
+        self.layout.add_widget(back_btn)
 
     def go_to_subject_selection(self, instance):
         self.manager.current = 'subject_selection'
 
+    def reset_quiz(self):
+        self.current_question = 0
+        self.score = 0
+        self.wrong_answers = []
+        self.selected_answers = []
+        
 # Gerenciador de Telas
 class QuizApp(App):
     def build(self):
