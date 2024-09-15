@@ -30,34 +30,6 @@ class LoginScreen(Screen):
     def start_quiz(self, instance):
         self.manager.current = 'subject_selection'
 
-# Tela de Cadastro
-class SignupScreen(Screen):
-    def __init__(self, **kwargs):
-        super(SignupScreen, self).__init__(**kwargs)
-        layout = BoxLayout(orientation='vertical', padding=20, spacing=10)
-        self.add_widget(layout)
-        
-        layout.add_widget(Label(text='Crie sua conta para começar', font_size='24sp', color=(0.5, 0.5, 0.5, 1)))
-        
-        self.username = TextInput(hint_text='Usuário', size_hint_y=None, height=40)
-        self.password = TextInput(hint_text='Senha', size_hint_y=None, height=40, password=True)
-        layout.add_widget(self.username)
-        layout.add_widget(self.password)
-        
-        signup_btn = Button(text='Cadastrar', size_hint_y=None, height=40)
-        login_btn = Button(text='Voltar para Login', size_hint_y=None, height=40)
-        layout.add_widget(signup_btn)
-        layout.add_widget(login_btn)
-
-        signup_btn.bind(on_press=self.signup)
-        login_btn.bind(on_press=self.go_to_login)
-
-    def signup(self, instance):
-        self.manager.current = 'subject_selection'
-
-    def go_to_login(self, instance):
-        self.manager.current = 'login'
-
 # Tela de Seleção de Assuntos
 class SubjectSelectionScreen(Screen):
     def __init__(self, **kwargs):
@@ -218,26 +190,30 @@ class LinguagensCodigosScreen(Screen):
         pass  
 
     def go_to_lingua_estrangeira(self, instance):
-        pass 
+        pass  
 
     def go_to_artes(self, instance):
-        pass 
+        pass  
 
     def go_to_educacao_fisica(self, instance):
-        pass 
+        pass  
 
     def go_to_tecnologias(self, instance):
-        pass 
+        pass  
 
     def go_to_subject_selection(self, instance):
         self.manager.current = 'subject_selection'
 
-# Tela de Quiz de Biologia
+# Tela do Quiz de Biologia
 class BiologyQuizScreen(Screen):
     def __init__(self, **kwargs):
         super(BiologyQuizScreen, self).__init__(**kwargs)
-        self.layout = BoxLayout(orientation='vertical', padding=20, spacing=10)
-        self.add_widget(self.layout)
+        self.reset_quiz()
+
+    def on_pre_enter(self, *args):
+        self.reset_quiz()
+
+    def reset_quiz(self):
         self.questions = [
 
             {
@@ -266,112 +242,213 @@ class BiologyQuizScreen(Screen):
     "answer": "c) Favorece a autofecundação."
 }
          ]
-        self.current_question = 0
-        self.score = 0
-        self.wrong_answers = []
-        self.selected_answers = []
-        self.buttons = []
-        self.show_question()
 
-    def on_enter(self, *args):
-        self.reset_quiz()
+        self.current_question = 0
+        self.selected_answers = []
+        self.score = 0
+
         self.show_question()
 
     def show_question(self):
-        self.layout.clear_widgets()
+        self.clear_widgets()
+        layout = BoxLayout(orientation='vertical', padding=20, spacing=10)
+        self.add_widget(layout)
 
-        question_data = self.questions[self.current_question]
-        question_label = Label(text=question_data["question"], font_size='18sp')
-        self.layout.add_widget(question_label)
+        question = self.questions[self.current_question]["question"]
+        options = self.questions[self.current_question]["options"]
 
-        self.buttons = []
-        for option in question_data["options"]:
+        layout.add_widget(Label(text=question, font_size='18sp'))
+
+        self.option_buttons = []
+        for option in options:
             btn = Button(text=option, size_hint_y=None, height=40)
             btn.bind(on_press=self.check_answer)
-            self.layout.add_widget(btn)
-            self.buttons.append(btn)
+            layout.add_widget(btn)
+            self.option_buttons.append(btn)
+
+        self.next_btn = Button(text='Próximo', size_hint_y=None, height=40, disabled=True)
+        self.next_btn.bind(on_press=self.next_question)
+        layout.add_widget(self.next_btn)
 
     def check_answer(self, instance):
         selected_answer = instance.text
-        self.selected_answers.append(selected_answer)
-
         correct_answer = self.questions[self.current_question]["answer"]
 
-        # Desativar os botões após a resposta ser escolhida
-        for btn in self.buttons:
-            btn.unbind(on_press=self.check_answer)
+        for btn in self.option_buttons:
             if btn.text == correct_answer:
-                btn.background_color = (0, 1, 0, 1)  # Verde para resposta correta
+                btn.background_color = (0, 1, 0, 1)  # verde
             elif btn.text == selected_answer:
-                btn.background_color = (1, 0, 0, 1)  # Vermelho para resposta incorreta
-            else:
-                btn.background_color = (0.8, 0.8, 0.8, 1)  # Cinza para opções não selecionadas
+                btn.background_color = (1, 0, 0, 1)  # vermelho
 
         if selected_answer == correct_answer:
             self.score += 1
         else:
-            self.wrong_answers.append({
+            self.selected_answers.append({
                 "question": self.questions[self.current_question]["question"],
                 "selected": selected_answer,
                 "correct": correct_answer
             })
 
-        # Adicionar botão "Próxima" para avançar
-        next_btn = Button(text='Próxima', size_hint_y=None, height=40)
-        self.layout.add_widget(next_btn)
-        next_btn.bind(on_press=self.next_question)
+        self.next_btn.disabled = False
 
     def next_question(self, instance):
         self.current_question += 1
-
         if self.current_question < len(self.questions):
             self.show_question()
         else:
-            self.show_score()
+            self.show_results()
 
-    def show_score(self):
-        self.layout.clear_widgets()
+    def show_results(self):
+        self.clear_widgets()
+        layout = BoxLayout(orientation='vertical', padding=20, spacing=10)
+        self.add_widget(layout)
 
-        score_label = Label(text=f"Pontuação Final: {self.score}/{len(self.questions)}", font_size='24sp')
-        self.layout.add_widget(score_label)
+        layout.add_widget(Label(text=f'Pontuação final: {self.score}/{len(self.questions)}', font_size='24sp'))
 
-        if self.wrong_answers:
-            wrong_label = Label(text="Respostas Incorretas:", font_size='20sp')
-            self.layout.add_widget(wrong_label)
+        if self.selected_answers:
+            layout.add_widget(Label(text='Respostas incorretas:', font_size='20sp'))
+            for answer in self.selected_answers:
+                layout.add_widget(Label(text=answer["question"], font_size='16sp'))
+                layout.add_widget(Label(text=f'Selecionada: {answer["selected"]}', color=(1, 0, 0, 1), font_size='14sp'))
+                layout.add_widget(Label(text=f'Correta: {answer["correct"]}', color=(0, 1, 0, 1), font_size='14sp'))
 
-            for answer in self.wrong_answers:
-                question_label = Label(text=f"Pergunta: {answer['question']}", font_size='16sp')
-                selected_label = Label(text=f"Sua resposta: {answer['selected']}", font_size='16sp', color=(1, 0, 0, 1))
-                correct_label = Label(text=f"Resposta correta: {answer['correct']}", font_size='16sp', color=(0, 1, 0, 1))
-                self.layout.add_widget(question_label)
-                self.layout.add_widget(selected_label)
-                self.layout.add_widget(correct_label)
+        finish_btn = Button(text='Voltar ao Início', size_hint_y=None, height=40)
+        finish_btn.bind(on_press=self.go_back_to_start)
+        layout.add_widget(finish_btn)
 
-        back_btn = Button(text='Voltar ao Menu', size_hint_y=None, height=40)
-        back_btn.bind(on_press=self.go_to_subject_selection)
-        self.layout.add_widget(back_btn)
-
-    def go_to_subject_selection(self, instance):
+    def go_back_to_start(self, instance):
         self.manager.current = 'subject_selection'
 
+       # Tela do Quiz de História
+class HistoryQuizScreen(Screen):
+    def __init__(self, **kwargs):
+        super(HistoryQuizScreen, self).__init__(**kwargs)
+        self.reset_quiz()
+
+    def on_pre_enter(self, *args):
+        self.reset_quiz()
+
     def reset_quiz(self):
+        self.questions = [
+            {
+                "question": "Questão 1: Quem foi o primeiro presidente do Brasil?",
+                "options": ["a) Getúlio Vargas", "b) Juscelino Kubitschek", "c) Marechal Deodoro da Fonseca", "d) João Goulart"],
+                "answer": "c) Marechal Deodoro da Fonseca"
+            },
+            {
+                "question": "Questão 2: Qual foi o ano da Proclamação da República no Brasil?",
+                "options": ["a) 1888", "b) 1889", "c) 1891", "d) 1905"],
+                "answer": "b) 1889"
+            },
+            {
+                "question": "Questão 3: Em que ano começou a Primeira Guerra Mundial?",
+                "options": ["a) 1912", "b) 1914", "c) 1918", "d) 1923"],
+                "answer": "b) 1914"
+            },
+            {
+                "question": "Questão 4: Qual tratado pôs fim à Primeira Guerra Mundial?",
+                "options": ["a) Tratado de Versalhes", "b) Tratado de Tordesilhas", "c) Tratado de Paris", "d) Tratado de Roma"],
+                "answer": "a) Tratado de Versalhes"
+            },
+            {
+                "question": "Questão 5: Quem foi o líder do movimento nazista na Alemanha?",
+                "options": ["a) Adolf Hitler", "b) Benito Mussolini", "c) Josef Stalin", "d) Winston Churchill"],
+                "answer": "a) Adolf Hitler"
+            }
+        ]
+
         self.current_question = 0
-        self.score = 0
-        self.wrong_answers = []
         self.selected_answers = []
+        self.score = 0
+        self.answer_checked = False
+
+        self.show_question()
+
+    def show_question(self):
+        self.clear_widgets()
         
-# Gerenciador de Telas
+        if self.current_question < len(self.questions):
+            layout = BoxLayout(orientation='vertical', padding=20, spacing=10)
+            self.add_widget(layout)
+
+            question = self.questions[self.current_question]["question"]
+            options = self.questions[self.current_question]["options"]
+
+            layout.add_widget(Label(text=question, font_size='18sp'))
+
+            self.option_buttons = []
+            for option in options:
+                btn = Button(text=option, size_hint_y=None, height=40)
+                btn.bind(on_press=self.check_answer)
+                layout.add_widget(btn)
+                self.option_buttons.append(btn)
+
+            self.next_btn = Button(text='Próximo', size_hint_y=None, height=40, disabled=True)
+            self.next_btn.bind(on_press=self.next_question)
+            layout.add_widget(self.next_btn)
+        else:
+            self.show_results()
+
+    def check_answer(self, instance):
+        selected_answer = instance.text
+        correct_answer = self.questions[self.current_question]["answer"]
+
+        for btn in self.option_buttons:
+            if btn.text == correct_answer:
+                btn.background_color = (0, 1, 0, 1)  # verde
+            elif btn.text == selected_answer:
+                btn.background_color = (1, 0, 0, 1)  # vermelho
+
+        if selected_answer == correct_answer:
+            self.score += 1
+        else:
+            self.selected_answers.append({
+                "question": self.questions[self.current_question]["question"],
+                "selected": selected_answer,
+                "correct": correct_answer
+            })
+
+        self.next_btn.disabled = False
+
+    def next_question(self, instance):
+        self.current_question += 1
+        self.show_question()
+
+    def show_results(self):
+        self.clear_widgets()
+        layout = BoxLayout(orientation='vertical', padding=20, spacing=10)
+        self.add_widget(layout)
+
+        layout.add_widget(Label(text=f'Pontuação final: {self.score}/{len(self.questions)}', font_size='24sp'))
+
+        if self.selected_answers:
+            layout.add_widget(Label(text='Respostas incorretas:', font_size='20sp'))
+            for answer in self.selected_answers:
+                layout.add_widget(Label(text=answer["question"], font_size='16sp'))
+                layout.add_widget(Label(text=f'Selecionada: {answer["selected"]}', color=(1, 0, 0, 1), font_size='14sp'))
+                layout.add_widget(Label(text=f'Correta: {answer["correct"]}', color=(0, 1, 0, 1), font_size='14sp'))
+
+        finish_btn = Button(text='Voltar ao Início', size_hint_y=None, height=40)
+        finish_btn.bind(on_press=self.go_back_to_start)
+        layout.add_widget(finish_btn)
+
+    def go_back_to_start(self, instance):
+        self.manager.current = 'subject_selection'
+
+
+
+# Atualizando o ScreenManager para incluir a tela de história
 class QuizApp(App):
     def build(self):
         sm = ScreenManager()
         sm.add_widget(LoginScreen(name='login'))
-        sm.add_widget(SignupScreen(name='signup'))
         sm.add_widget(SubjectSelectionScreen(name='subject_selection'))
         sm.add_widget(CienciasHumanasScreen(name='ciencias_humanas'))
         sm.add_widget(NatureSciencesScreen(name='nature_sciences'))
-        sm.add_widget(LinguagensCodigosScreen(name='linguagens_codigos'))
         sm.add_widget(BiologyQuizScreen(name='biology_quiz'))
+        sm.add_widget(HistoryQuizScreen(name='history_quiz'))  # Adicionando o quiz de história
         return sm
+
 
 if __name__ == '__main__':
     QuizApp().run()
