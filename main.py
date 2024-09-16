@@ -238,7 +238,7 @@ class BiologyQuizScreen(Screen):
                 "answer": "e) pela interação dos fatores abióticos e bióticos."
             },
             {
-                "question": "Questão 4 (FATEC) Observe a cadeia alimentar abaixo: Capim → preá → lobo guará → onça Podemos dizer que:",
+                "question": "Questão 4 (FATEC) Observe a cadeia alimentar abaixo: Capim, preá, lobo guará, onça Podemos dizer que:",
                 "options": ["a) o preá é o consumidor primário e, portanto, representa o primeiro nível trófico.", "b) o lobo guará e a onça ocupam o terceiro e o quarto níveis tróficos, respectivamente.", "c) o lobo guará é consumidor terciário e representa o segundo nível trófico", "d) o capim é o produtor e representa o segundo nível trófico.", "e) a onça é consumidor terciário e representa o terceiro nível trófico."],
                 "answer": "a) o preá é o consumidor primário e, portanto, representa o primeiro nível trófico."
             },
