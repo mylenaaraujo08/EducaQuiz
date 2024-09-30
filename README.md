@@ -48,6 +48,23 @@ Análise de Pontuação e Feedback de Desempenho: Oferece um relatório detalhad
 
 Simulação Realista do Ambiente de Prova: Combina temporizador e estatísticas para uma experiência de simulação eficaz.
 
+# Terceira Etapa do Desenvolvimento
+
+Na terceira etapa do desenvolvimento do EducaQuiz, as funcionalidades foram expandidas com a adição de novos quizzes e a introdução de simulados completos, aproximando ainda mais a experiência dos usuários da realidade do exame:
+
+Implementação dos Quizzes de Matemática e Português: Foram adicionados quizzes específicos para as áreas de Matemática e suas Tecnologias, bem como para a disciplina de Português. Esses quizzes cobrem tópicos importantes e exigidos no ENEM, proporcionando ao usuário uma prática focada nessas matérias fundamentais. As questões foram elaboradas para refletir o estilo e a dificuldade das perguntas do exame.
+
+Simulado Completo com Temporizador: Além dos quizzes temáticos, foi implementada a funcionalidade de simulado. O simulado combina questões de várias áreas do conhecimento, simulando uma prova completa do ENEM. O temporizador foi ajustado para refletir o tempo real da prova, o que permite aos usuários treinarem com as mesmas restrições de tempo que enfrentariam no dia do exame. Essa funcionalidade garante uma preparação ainda mais eficaz, ajudando os estudantes a se familiarizarem com a pressão e a gerenciarem melhor o tempo durante o exame.
+
+Principais Funcionalidades Adicionadas na Terceira Etapa:
+
+Quizzes de Matemática e Português: Cobertura completa dessas disciplinas com questões práticas.
+Simulado com Temporizador: Prova simulada com questões de diversas áreas e limite de tempo realista.
+Relatório de Desempenho Pós-Simulado: Após o término do simulado, os usuários recebem uma recompesa Sistema de Recompensas: Uma nova camada de motivação foi adicionada por meio de um sistema de recompensas baseado no desempenho do usuário. Após o termino é recebida uma mensagem personalizadas de recompensa acordo com sua pontuação.Se o usuário acertar mais de 90% das questões no simulado, ele receberá uma mensagem de recompensa celebrando seu excelente desempenho, e um aviso de que ele conseguiu uma bolsa gratuita no curso preparatorio do ProENEM, e se caso o usuário acertar entre 70% e 80% das questões no simulado, ele receberá uma mensagem de recompensa celebrando seu excelente desempenho, e um aviso de que ele conseguiu uma bolsa de 50% no curso preparatorio do ProENEM, Por fim, se o desempenho for abaixo de 70%, a mensagem va indicar que infelizmente, o usuário não atingiu pontos suficientes para obter a premiação.
+
+Melhoria do Design: Foi apriorado a organização do codigo e da interface para maior intuitividade visual.
+
+
 # Propostas Futuras
 
 Música de Fundo: Implementar música com opções de controle de volume ou desativação.
