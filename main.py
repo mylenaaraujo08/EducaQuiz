@@ -38,7 +38,6 @@ class QuizApp(App):
         sm.add_widget(HistoryQuizScreen(name='history_quiz')) 
         sm.add_widget(PortugueseQuizScreen(name='portuguese_quiz')) 
         sm.add_widget(SimulatedQuizScreen(name='simulado')) 
-
         return sm
 
 if __name__ == '__main__':
