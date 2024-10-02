@@ -52,7 +52,7 @@ Simulação Realista do Ambiente de Prova: Combina temporizador e estatísticas 
 
 Na terceira etapa do desenvolvimento do EducaQuiz, as funcionalidades foram expandidas com a adição de novos quizzes e a introdução de simulados completos, aproximando ainda mais a experiência dos usuários da realidade do exame:
 
-Implementação dos Quizzes de Matemática e Português: Foram adicionados quizzes específicos para as áreas de Matemática e suas Tecnologias, bem como para a disciplina de Português. Esses quizzes cobrem tópicos importantes e exigidos no ENEM, proporcionando ao usuário uma prática focada nessas matérias fundamentais. As questões foram elaboradas para refletir o estilo e a dificuldade das perguntas do exame.
+Implementação dos Quizzes de Matemática e Português: Foram adicionados quizzes específicos para as áreas de Matemática, bem como para a disciplina de Português. Esses quizzes cobrem tópicos importantes e exigidos no ENEM, proporcionando ao usuário uma prática focada nessas matérias fundamentais.
 
 Simulado Completo com Temporizador: Além dos quizzes temáticos, foi implementada a funcionalidade de simulado. O simulado combina questões de várias áreas do conhecimento, simulando uma prova completa do ENEM. O temporizador foi ajustado para refletir o tempo real da prova, o que permite aos usuários treinarem com as mesmas restrições de tempo que enfrentariam no dia do exame. Essa funcionalidade garante uma preparação ainda mais eficaz, ajudando os estudantes a se familiarizarem com a pressão e a gerenciarem melhor o tempo durante o exame.
 
