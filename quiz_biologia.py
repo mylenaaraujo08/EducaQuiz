@@ -42,14 +42,9 @@ class BiologyQuizScreen(Screen):
             },
             {
                 "question": "Questão 4 (FATEC) Observe a cadeia alimentar abaixo: Capim, preá, lobo guará, onça Podemos dizer que:",
-                "options": ["a) o preá é o consumidor primário e, portanto, representa o primeiro nível trófico.", "b) o lobo guará e a onça ocupam o terceiro e o quarto níveis tróficos, respectivamente.", "c) o lobo guará é consumidor terciário e representa o segundo nível trófico", "d) o capim é o produtor e representa o segundo nível trófico.", "e) a onça é consumidor terciário e representa o terceiro nível trófico."],
+                "options": ["a) o preá é o consumidor primário e, portanto, representa o primeiro nível trófico.", "b) o lobo guará e a onça ocupam o terceiro e o quarto níveis tróficos.", "c) o lobo guará é consumidor terciário e representa o segundo nível trófico", "d) o capim é o produtor e representa o segundo nível trófico.", "e) a onça é consumidor terciário e representa o terceiro nível trófico."],
                 "answer": "a) o preá é o consumidor primário e, portanto, representa o primeiro nível trófico."
             },
-            {
-                "question": "Questão 5 (UNESP) O fato de, em algumas flores, o gineceu e o androceu amadurecerem ao mesmo tempo:",
-                "options": ["a) Garante floração mais prolongada da espécie;", "b) Propicia maior produtividade de frutos;", "c) Favorece a autofecundação;", "d) Reduz as chances de autofecundação;", "e) Impede a autofecundação."],
-                "answer": "c) Favorece a autofecundação."
-            }
         ]
 
         self.current_question = 0
@@ -75,7 +70,7 @@ class BiologyQuizScreen(Screen):
             layout.add_widget(btn)
             self.option_buttons.append(btn)
 
-        self.next_btn = Button(text='Próximo',size_hint=(None, None), width=560, height=40, pos_hint={'center_x': 0.5}, disabled=True)
+        self.next_btn = Button(text='Próximo',size_hint=(None, None), width=220, height=40, pos_hint={'center_x': 0.5}, disabled=True)
         self.next_btn.bind(on_press=self.next_question)
         layout.add_widget(self.next_btn)
 
@@ -151,7 +146,7 @@ class BiologyQuizScreen(Screen):
         self.clear_widgets()
         anchor_layout = AnchorLayout(anchor_y='center')  
         self.add_widget(anchor_layout)
-        layout = BoxLayout(orientation='vertical', padding=[20, 160, 20, 60], spacing=10)  # Aumentando o padding inferior
+        layout = BoxLayout(orientation='vertical', padding=[20, 160, 20, 60], spacing=35)  
         anchor_layout.add_widget(layout)
 
         layout.add_widget(Label(text=f'Pontuação final: {self.score}/{len(self.questions)}', font_size='24sp'))
@@ -170,7 +165,7 @@ class BiologyQuizScreen(Screen):
         layout.add_widget(Label(text=f'Tempo total gasto: {total_time:.2f} segundos', font_size='20sp'))
         layout.add_widget(Label(text=f'Tempo médio por pergunta: {avg_time_per_question:.2f} segundos', font_size='20sp'))
 
-        finish_btn = Button(text='Voltar ao Início', size_hint=(None, None), width=120, height=40)
+        finish_btn = Button(text='Voltar ao Início', size_hint=(None, None), width=150, height=40, pos_hint={'center_x': 0.5})
         finish_btn.bind(on_press=self.go_back_to_start)
         layout.add_widget(finish_btn)
 
