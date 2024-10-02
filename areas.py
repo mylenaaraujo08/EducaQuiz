@@ -70,7 +70,7 @@ class NatureSciencesScreen(Screen):
         btn_biologia = Button(text='Biologia', size_hint=(None, None), height=40, width=520, pos_hint={'center_x': 0.5})
         btn_quimica = Button(text='Química', size_hint=(None, None), height=40, width=520, pos_hint={'center_x': 0.5})
         btn_fisica = Button(text='Física', size_hint=(None, None), height=40, width=520, pos_hint={'center_x': 0.5})
-        back_btn = Button(text='Voltar', size_hint=(None, None), height=40, width=520, pos_hint={'center_x': 0.5})
+        back_btn = Button(text='Voltar', size_hint=(None, None), height=40, width=220, pos_hint={'center_x': 0.5})
         
         layout.add_widget(btn_biologia)
         layout.add_widget(btn_quimica)
@@ -111,7 +111,7 @@ class LinguagensCodigosScreen(Screen):
         btn_artes = Button(text='Artes', size_hint=(None, None), height=40, width=520, pos_hint={'center_x': 0.5})
         btn_educacao_fisica = Button(text='Educação Física', size_hint=(None, None), height=40, width=520, pos_hint={'center_x': 0.5})
         btn_tecnologias = Button(text='Tecnologias da Informação e Comunicação', size_hint=(None, None), height=40, width=520, pos_hint={'center_x': 0.5})
-        back_btn = Button(text='Voltar',size_hint=(None, None), height=40, width=520, pos_hint={'center_x': 0.5})
+        back_btn = Button(text='Voltar',size_hint=(None, None), height=40, width=220, pos_hint={'center_x': 0.5})
         
         layout.add_widget(btn_portugues)
         layout.add_widget(btn_literatura)
