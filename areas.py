@@ -18,7 +18,7 @@ class CienciasHumanasScreen(Screen):
         anchor_layout = AnchorLayout(anchor_y='center')  
         self.add_widget(anchor_layout)
         
-        layout = BoxLayout(orientation='vertical', padding=[20, 160, 20, 60], spacing=10)  # Aumentando o padding inferior
+        layout = BoxLayout(orientation='vertical', padding=[20, 160, 20, 60], spacing=10)
         anchor_layout.add_widget(layout)
         
         layout.add_widget(Label(text='Ciências Humanas', font_size='24sp'))
