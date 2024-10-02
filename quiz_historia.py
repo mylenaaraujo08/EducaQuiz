@@ -72,7 +72,7 @@ class HistoryQuizScreen(Screen):
             layout.add_widget(btn)
             self.option_buttons.append(btn)
 
-        self.next_btn = Button(text='Próximo', size_hint=(None, None), width=520, height=40, pos_hint={'center_x': 0.5}, disabled=True)
+        self.next_btn = Button(text='Próximo', size_hint=(None, None), width=220, height=40, pos_hint={'center_x': 0.5}, disabled=True)
         self.next_btn.bind(on_press=self.next_question)
         layout.add_widget(self.next_btn)
 
@@ -148,7 +148,7 @@ class HistoryQuizScreen(Screen):
         self.clear_widgets()
         anchor_layout = AnchorLayout(anchor_y='center')  
         self.add_widget(anchor_layout)
-        layout = BoxLayout(orientation='vertical', padding=[20, 160, 20, 60], spacing=10)  # Aumentando o padding inferior
+        layout = BoxLayout(orientation='vertical', padding=[20, 160, 20, 60], spacing=35) 
         anchor_layout.add_widget(layout)
        
         # Mostrar pontuação final
@@ -175,7 +175,7 @@ class HistoryQuizScreen(Screen):
         layout.add_widget(Label(text=f'Tempo total gasto: {total_time:.2f} segundos', font_size='20sp'))
         layout.add_widget(Label(text=f'Tempo médio por pergunta: {avg_time_per_question:.2f} segundos', font_size='20sp'))
 
-        finish_btn = Button(text='Voltar ao Início', size_hint=(None, None), width=120, height=40)
+        finish_btn = Button(text='Voltar ao Início', size_hint=(None, None), width=150, height=40, pos_hint={'center_x': 0.5})
         finish_btn.bind(on_press=self.go_back_to_start)
         layout.add_widget(finish_btn)
 
